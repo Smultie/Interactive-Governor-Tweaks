@@ -3,11 +3,11 @@
 #Device: Nexus 5X (Bullhead)
 #Codename: DrunkSauce
 #Build Status: Stable
-#Version: 1.1
+#Version: 1.2
 #Last Updated: 11/30/2016
 #Notes: Please give credit when using this in your work!
 echo ----------------------------------------------------
-echo Applying 'DrunkSauce' v1.1 Impluse and Ironactive Governor Settings
+echo Applying 'DrunkSauce' v1.2 Impulse and Interactive Governor Settings
 echo ----------------------------------------------------
 
 #Apply settings to LITTLE cluster
@@ -16,10 +16,6 @@ echo Applying settings to LITTLE cluster
 chmod 644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 echo impulse > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-#Temporarily change permissions to governor files for the LITTLE cluster to lower the minimum frequency to 302MHz if possible
-chmod 644 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-echo 302400 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq			#Core 0 Minimum Frequency = 302MHz			
-chmod 444 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
 
 #Grab Maximum Achievable Frequency for the LITTLE Cluster
 lilmaxfreq=$(cat "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq")				
@@ -52,11 +48,6 @@ echo 166667 > /sys/devices/system/cpu/cpu0/cpufreq/impulse/max_freq_hysteresis
 
 #Apply settings to Big cluster
 echo Applying settings to Big cluster
-#Temporarily change permissions to governor files for the Big cluster to enable Ironactive governor
-echo 1 > /sys/devices/system/cpu/cpu4/online								#Online Core 4
-chmod 644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-echo ironactive > /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
-chmod 444 /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
 #Temporarily change permissions to governor files for the Big cluster to raise minimum frequency to 633MHz
 chmod 644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
 echo 633600 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq			#Core 4 Minimum Frequency = 633MHz			
@@ -80,19 +71,19 @@ elif test $maxfreq -eq 1824000; then
 	echo 74 768000:73 864000:64 960000:80 1248000:61 1344000:69 1440000:64 1536000:74 1632000:69 1689600:67 1824000:72 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/target_loads #Set normal max frequency target_loads
 fi
 
-#Tweak Ironactive Governor
-echo 90 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/go_hispeed_load
-echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/above_hispeed_delay
-echo 20000 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/timer_rate
-echo 1440000 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/hispeed_freq
-echo -1 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/timer_slack
-echo 30000 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/min_sample_time
-echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/boost
-echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/align_windows
-echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/use_migration_notif
-echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/use_sched_load
-echo 20000 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/max_freq_hysteresis
-echo 80000 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/boostpulse_duration
+#Tweak Interactive Governor
+echo 90 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
+echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
+echo 20000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate
+echo 1440000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq
+echo -1 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_slack
+echo 30000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/min_sample_time
+echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/boost
+echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/align_windows
+echo 1 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_migration_notif
+echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/use_sched_load
+echo 20000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/max_freq_hysteresis
+echo 80000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/boostpulse_duration
 
 #Enable Input Boost for LITTLE cluster @600MHz for 40ms
 echo Enabling Input Boost at 600 MHz for the LITTLE cluster
