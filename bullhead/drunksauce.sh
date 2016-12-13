@@ -61,7 +61,7 @@ if test $maxfreq -eq 2016000; then
 	chmod 644 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
 	echo 2016000 > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq		#Core 4 Maximum Frequency = 2016MHz			
 	chmod 444 /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
-	echo 74 768000:73 864000:64 960000:80 1248000:61 1344000:69 1440000:64 1536000:74 1632000:69 1689600:67 1824000:72 1958400:85 2016000:100 > /sys/devices/system/cpu/cpu4/cpufreq/ironactive/target_loads #Set overclock max frequency compatible target_loads
+	echo 74 768000:73 864000:64 960000:80 1248000:61 1344000:69 1440000:64 1536000:74 1632000:69 1689600:67 1824000:72 1958400:85 2016000:100 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads #Set overclock max frequency compatible target_loads
 elif test $maxfreq -eq 1824000; then
 	#Temporarily change permissions to governor files for the Big cluster to set the maximum frequency to 1824MHz
 	echo No Big Cluster Overclocking detected. Applying appropriate values.
@@ -71,7 +71,7 @@ elif test $maxfreq -eq 1824000; then
 	echo 74 768000:73 864000:64 960000:80 1248000:61 1344000:69 1440000:64 1536000:74 1632000:69 1689600:67 1824000:72 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/target_loads #Set normal max frequency target_loads
 fi
 
-#Tweak Ironactive Governor
+#Tweak Interactive Governor
 echo 90 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load
 echo 0 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay
 echo 20000 > /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate
